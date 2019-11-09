@@ -45,7 +45,7 @@ If the sensor gets temporarily disconnected the red LED will turn ON, and the BL
 
 The sensor calibration is always checked before any read and the Red LED status is updated accordingly. Therefore if the sensor turns out not calibrated the Red LED will start blinking and no data will be sent.
 The movement information the node sends and supported body parts are defined in the following document
-https://github.com/ManuDev9/body-specs-sensor/blob/master/specs/Messages_Bodyparts.spec
+https://github.com/ManuDev9/body-specs-sensor/blob/master/Messages_Bodyparts.spec
 
 The data is read from the sensor every 30 milliseconds
 
@@ -54,7 +54,7 @@ If read data exceeds the +-0.002 range of the previous data, it is send and beco
 If it does not exceed, previous data does not change
 
 The actions the node can receive is defined in the following document
-https://github.com/ManuDev9/body-nodes-specs/blob/master/specs/Actions.spec
+https://github.com/ManuDev9/body-nodes-specs/blob/master/Actions.spec
 
 Action is also checked every 30 milliseconds after read sensor
 
