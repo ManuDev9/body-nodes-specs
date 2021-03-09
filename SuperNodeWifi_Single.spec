@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2019-2021 Manuel Bottini
+Copyright (c) 2021 Manuel Bottini
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22,26 +22,28 @@ SOFTWARE.
 
 ------------------------------------------------
 
-WIFI_node is the WiFi node that collects movement information and sends it as a client to the server (application). It also listens for actions from the server.
+WIFI_snode stands for WiFi Super Node.
+
+WIFI_snode is the WiFi node that collects movement information and sends it as a client to the server (application). It also listens for actions from the server. On top of this it creates a local wifi network for other WIFI_nodes and WIFI_snodes can connect and send data. The WIFI_snode will collect the info and send all together.
 
 BodyNodeSensor app has the same specs indicated in this document.
 
 The Device Name is:
-"WIFI_node"
+"WIFI_snode"
 
-WIFI_node is connected with only one sensor.
+WIFI_snode physically collects data only from one sensor. It collects other movement information from other nodes.
 
-The WIFI_node has two LEDs: a green LED and a red LED. The green LED indicates the status of the connection (WiFI AND Server), while the red LED indicates the status of the communication with the sensor
+The WIFI_snode has two LEDs: a green LED and a red LED. The green LED indicates the status of the connection (WiFI AND Server), while the red LED indicates the status of the communication with the sensor
 
 Red LED ON: There is a problem communicating with the sensor
-Red LED BLINKING: the sensor is not calibrated yet
+Red LED BLINKING: The sensor is not calibrated yet
 Red LED OFF: The sensor is correctly communicating
 
-Green LED OFF: The WIFI_node is not connected to the WiFi OR the Server is offline
-Green LED BLINKING: The WIFI_node is trying to connect with the Server
+Green LED OFF: The WIFI_snode is not connected to the WiFi OR the Server is offline
+Green LED BLINKING: The WIFI_snode is trying to connect with the Server
 Green LED ON: The WiFi_node is connected to the WiFi AND communicating with the Server
 
-If the sensor gets temporarily disconnected the red LED will turn ON, and the WIFI_node will keep pinging the sensor till it becomes again available. As soon as the communication with the sensor re-establishes the red LED turns OFF.  
+If the sensor gets temporarily disconnected the red LED will turn ON. The WIFI_node will keep pinging the sensor till it becomes available again. As soon as the communication with the sensor re-establishes the red LED turns OFF.  
 
 The sensor calibration is always checked before any read and the Red LED status is updated accordingly. Therefore if the sensor turns out not calibrated the Red LED will start blinking and no data will be sent.
 The movement information the node sends and supported body parts are defined in the following document
