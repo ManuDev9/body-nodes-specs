@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2019 Manuel Bottini
+Copyright (c) 2019-2021 Manuel Bottini
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -69,13 +69,23 @@ The Node will then use UDP to send data.
 ------------------------------------------------
 Unsecure UDP
 ------------------------------------------------
-The underlying protocol used is UDP. Let's assume two actors in the communication:
-	- Node: which gathers movement information and send it to the server
-	- Host: which listens for nodes and uses the data somehow
+The underlying protocol used is UDP. There can be 3 actors in the communication:
+	- Node: which gathers movement information from its own sensor and send it to the Host or Super Node
+	- Super Node: which gathers movement information from its own sensor and other Nodes and send it to the Host
+	- Host: which listens for Nodes and Super Nodes and makes data available to the Main Application
 
 This document assumes that Node and Host are already connected on the same WiFi and they know each other IP Address and Port.
 
-The port used by Node and Host is 12345.
+The port used by Host is 12344 (as server).
+The port used by Super Host is 12344 (as client) and 12345 (as server).
+The port used by Node is 12345 (as client) or 12344 (as client).
+
+Note 1: If you want to connect Node to Host directly you need to set up the Node to use port 12344
+Note 2: If you want to connect Node to Host with Super Nodes as intermediate you need to set up the Node to use port 12345
+Note 3: You might want to use Super Nodes to lower the number of Nodes/Super Nodes connected to the same Host.
+Note 4: Some platforms have a limit on the maximum number of WiFi connections they can have.
+
+The choice of ports ensures a simpler implementation of Nodes, Super Nodes, and Hosts.
 
 The Node starts the communication by sending a UDP packet with the message “ACK”  every 1 second.
 
