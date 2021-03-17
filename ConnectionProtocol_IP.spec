@@ -76,9 +76,9 @@ The underlying protocol used is UDP. There can be 3 actors in the communication:
 
 This document assumes that Node and Host are already connected on the same WiFi and they know each other IP Address and Port.
 
-The port used by Host is 12344 (as server).
-The port used by Super Host is 12344 (as client) and 12345 (as server).
-The port used by Node is 12345 (as client) or 12344 (as client).
+The port used by Host is 12344 (as server) and 12345 (as server). So both ports should be open at the same time.
+The port used by Super Node is 12344 (as client) and 12345 (as server).
+The port used by Node is 12345 (as client) or 12344 (as client). So only one port should be open. 
 
 Note 1: If you want to connect Node to Host directly you need to set up the Node to use port 12344
 Note 2: If you want to connect Node to Host with Super Nodes as intermediate you need to set up the Node to use port 12345
@@ -94,3 +94,14 @@ When Node receives a UDP packet with message “ACK”, it starts sending moveme
 The Host opens the port waiting for UDP packets.
 
 When Host receives a UDP packet with message “ACK”, it sends back a UDP packet with message “ACK” and passively waits for movement information.
+
+Actions are also sent via UDP:
+	- from Host to Nodes and Super Nodes
+	- from Super Nodes to Nodes
+
+When an action is sent, the sender expects an ACK in return to indicate that the actions has been properly received.
+The sender will keep sending the last action it has to send till the ACK is received.
+
+The receiver when receives an action, is expected to act on it and send back an ACK. 
+
+This process is important to make sure actions are done, since UDP is an unreliable protocol.
