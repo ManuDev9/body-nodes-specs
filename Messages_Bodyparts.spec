@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2019 Manuel Bottini
+Copyright (c) 2019-2021 Manuel Bottini
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -32,7 +32,7 @@ The type of messages are:
 Depending on the communication technology the messages are encoded in different ways. The communication technologies considered are:
 	- WiFi
 	- BLE
-	- Bluetooth
+	- Bluetooth/Serial
 
 The suggested body parts are the following:
 	- "head"
@@ -49,14 +49,18 @@ The suggested body parts are the following:
 	- "lowerleg_right"
 	- "upperleg_right"
 	- "shoe_right"
+	- "untagged"
+	- "katana"
+	- "upperbody"
+	- "lowerbody"
 
 Any other name can be used, the library will report them as is to the user. Therefore it is up to the application to properly accept them.
 
 ---------------------------------------------------------
-WiFi Nodes
+WiFi Communication
 ---------------------------------------------------------
 
-The data of the WiFi node is send to the server and it has the following format:
+The WiFi node data is send to the server and it has the following format:
 A JSON containing as keys
 	- “bodypart” which will contain a string indicating the bodypart 
 	- “type” which will contain the type of message, supported values are
@@ -64,8 +68,6 @@ A JSON containing as keys
 	- “value” which will contain the value of the message
 		- For “orientation” the value it is a string representing a Quaternion with four floating points with 4-5 decimal precision separated by “|” : 
 			- W|X|Y|Z
-
-All wifi nodes are TAGGED with the bodypart they refer to.
 
 Example:
 
@@ -82,7 +84,7 @@ Json = {
 
 
 ---------------------------------------------------------
-BLE Nodes
+BLE Communication
 ---------------------------------------------------------
 
 BLE works with services and characteristics which are identified by UUIDs. The only rule about the UUID is that it should start with:
@@ -111,18 +113,20 @@ The application should subscribe to the notification feature in order to receive
 
 
 ---------------------------------------------------------
-Bluetooth Nodes
+Bluetooth/Serial Communication
 ---------------------------------------------------------
 
 Each message type will be considered separately.
 
-Movement information is send using 20 bytes in total:
-	- Bytes of index 0 1 indicating the start of the packet, fixed to 0x0101
-	- Bytes of index 2 3 indicating the body part:
+Movement information is send using 22 bytes in total:
+	- Bytes of index 0 1 indicating start of packet: 0xFFFF
+	- Bytes of index 2 3 indicating the type of the packet:
+		- orientation		0x0000
+	- Bytes of index 4 5 indicating the body part:
 		- "head"			0xCCC1
 		- "hand_left"		0xCCC2
-		- "forearm_left" 	0xCCC3
-		- "upperarm_left" 	0xCCC4
+		- "forearm_left"	0xCCC3
+		- "upperarm_left"	0xCCC4
 		- "body"			0xCCC5
 		- "forearm_right"	0xCCC6
 		- "upperarm_right"	0xCCC7
@@ -133,9 +137,13 @@ Movement information is send using 20 bytes in total:
 		- "lowerleg_right"	0xCCCC
 		- "upperleg_right"	0xCCCD
 		- "shoe_right"		0xCCCE
+		- "untagged"		0xCCCF
+		- "katana"			0xCCD0
+		- "upperbody"		0xCCD1
+		- "lowerbody"		0xCCD2
 
 	- 16-bytes containing 4 bytes floating point representation of the four values of a Quaternion:
-		- Bytes of index  4   5   6   7 contains W
-		- Bytes of index  8   9  10 11 contains X
-		- Bytes of index 12 13 14 15 contains Y
-		- Bytes of index 16 19 18 19 contains Z
+		- Bytes of index  6  7  8  9 contains W
+		- Bytes of index 10 11 12 13 contains X
+		- Bytes of index 14 15 16 17 contains Y
+		- Bytes of index 18 19 20 21 contains Z
