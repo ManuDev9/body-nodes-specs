@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2019-2021 Manuel Bottini
+Copyright (c) 2021 Manuel Bottini
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -19,3 +19,36 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+------------------------------------------------
+
+Bodyparts Development Specification Version 1.0
+
+This document details the Body Parts supported by Bodynodes.
+Please open an Issue in case the document is ambiguous or missing information.
+
+---------------------------------------------------------
+Body Parts Names
+---------------------------------------------------------
+These are the supported body parts:
+- "head"
+- "hand_left"
+- "lowerarm_left"
+- "upperarm_left"
+- "body"
+- "lowerarm_right"
+- "upperarm_right"
+- "hand_right"
+- "lowerleg_left"
+- "upperleg_left"
+- "foot_left"
+- "lowerleg_right"
+- "upperleg_right"
+- "foot_right"
+- "upperbody"
+- "lowerbody"
+- "katana"
+- "untagged"
+  - or "untagged_<number>" in case you have multiple untagged sensors on the node
+  - you can still use it, but it is suggested to change its name 
+- "all"

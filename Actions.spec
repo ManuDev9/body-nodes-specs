@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2019 Manuel Bottini
+Copyright (c) 2019-2021 Manuel Bottini
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22,125 +22,105 @@ SOFTWARE.
 
 ------------------------------------------------
 
-This document describes the type of action information the BodyNodes nodes can receive.
+Action Development Specification Version 1.0
+
+This document describes the type of action information the Bodynodes nodes can receive.
+Please open an Issue in case the document is ambiguous or missing information.
 
 The actions supported are:
-	- Haptic
+- Haptic
+- EnableSensor
+- SetPlayer
+- SetBodypart
+- SetupWifi
 
+Depending on the communication technology the movement information is encoded in different ways.
 
-Depending on the communication technology the movement information is encoded in different ways. The communication technologies considered are:
-	- WiFi
-	- BLE
-	- Bluetooth
-
+The communication technologies considered are:
+- Wifi
 
 ---------------------------------------------------------
-WiFi Nodes
+Wifi Communication
 ---------------------------------------------------------
 
-The action is sent from the server to the WiFi node and it has the following format:
-	- JSON, depending on the action it has different fields
+The action is sent from the Host to the Wifi node with the UDP protocol.
 
-Haptic action
+Actions are encoded in UDP packets which are a sequence of bytes.
+The bytes will represent a string of a JSON object.
+Every action has a specific JSON.
 
-Json composition of Haptic action:
-	- Key “action”, with value:
-		- “haptic”
-	- Key “duration_ms” with value 
-		- an unsigned integer of max 16 bits indicating the duration in ms example:
-			- 500, indicating 500 ms
-	- Key “strength” with value
-		- An unsigned integer ranging from 0 (no vibration) to 255 (maximum), example:
-			- 150, medium strength
-	- (Optional) Key “bodypart”, with any string value. If not present all bodyparts should act. Single bodynodes will just ignore this field
+Haptic action JSON fields:
+- "type" indicating the haptic action with:
+	- "type" : "haptic"
+- "player" indicating the player. Example:
+  - "player" : "user1"
+- "bodypart" indicating the bodypart, check the "Body Parts Names" section in the "Bodyparts" document for the values to use. Example:
+  - "bodypart" : "hand_right"
+- "duration_ms" containing the unsigned integer representation of the duration in ms, example 255 ms:
+  - "duration_ms" : 255
+- "strength" containing the unsigned integer representation of the strength, example 100
+  - "strength" : 100
 
+SetPlayer action JSON fields:
+- "type" indicating the set_player action:
+  - "type" : "set_player"
+- "player" indicating the player. Example:
+  - "player" : "user1"
+- "bodypart" indicating the bodypart to change. Check the "Body Parts Names" section in the "Bodyparts" document for the values to use. Example:
+  - "bodypart" : "all"
+- "new_player" indicating the new player to assign. Example:
+  - "new_player" : "mario"
 
-Example 1:
+SetBodypart action JSON fields:
+- "type" indicating the set_bodypart action:
+  - "type" : "set_bodypart"
+- "player" indicating the player. Example:
+  - "player" : "user1"
+- "bodypart" indicating the bodypart to change. Check the "Body Parts Names" section in the "Bodyparts" document for the values to use. Example:
+  - "bodypart" : "foot_left"
+- "new_bodypart" indicating the new bodypart to assign. Check the "Body Parts Names" section in the "Bodyparts" document for the values to use. Example:
+  - "new_bodypart" : "lowerbody"
+
+EnableSensor action JSON fields:
+- "type" indicating the enable_sensor action:
+  - "type" : "enable_sensor"
+- "player" indicating the player. Example:
+  - "player" : "user1"
+- "bodypart" indicating the bodypart. Check the "Body Parts Names" section in the "Bodyparts" document for the values to use. Example:
+  - "bodypart" : "all"
+- "sensortype" indicating the sensor. Check the "SensorTypes" document for the values to use. Example:
+  - "sensortype" : "orientation_abs"
+- "enable" indicating if we want to enable or disable. Example:
+  - "enable" : true
+
+SetWifi action JSON fields:
+- "type" indicating the set_wifi action:
+  - "type" : "set_wifi"
+- "player" indicating the player. Example:
+  - "player" : "user1"
+- "bodypart" indicating the bodypart. Check the "Body Parts Names" section in the "Bodyparts" document for the values to use. Example:
+  - "bodypart" : "all"
+- "ssid" indicating the SSID of the wifi to connect. Example:
+  - "ssid" : "MyWifi"
+- "password" indicating the password to connect to the wifi. Example:
+  - "password" : "12345678"
+- "server_ip" indicating the ip address to connect to. Example:
+  - "server_ip" : "127.0.0.1"
+  
+Example:
 
 action = haptic
+player = morty
+bodypart = hand_right
 duration_ms = 250
 strength = 200
 
-Json = {
-	“action”:“haptic”,
-	“duration_ms” : 250,
-	“strength” : 200
+Action JSON =
+{
+	"action" : "haptic"
+	"player" : "morty"
+	"bodypart" : "hand_right"
+	"duration_ms" : 250
+	"strength" : 200 
 }
-
-Example 2:
-
-action = haptic
-bodypart = upperarm_left
-duration_ms = 250
-strength = 200
-
-Json = {
-	“action”:“haptic”,
-	“duration_ms” : 250,
-	“strength” : 200,
-	“bodypart” : “upperarm_left” 
-}
-
-
-
----------------------------------------------------------
-BLE Nodes
----------------------------------------------------------
-
-BLE works with services and characteristics which are identified by UUIDs. The only rule about the UUID is that it should start with:
-“0000CC”
-
-All the services and characteristics starting as indicated will be read and considered. There are 2 type of characteristics:
-	- Orientation Characteristic
-	- Action Characteristic
-
-In this document only Action Characteristics are considered.
-
-The characteristic has the following properties:
-	- Can be read
-	- Can be written
-
-When reading the characteristic will return the action and the name of the bodypart the action will be applied. Each action will be described separately.
-
-The action is sent from the application to the BLE node and it has the following format:
-	- Array of bytes, depending on the action it has a different sequence of bytes
-
-Haptic
-
-When reading the characteristic will return a string composed of 2 elements: action tag and bodypart separated by a “:” character. In this case the action tag for haptic is:
-	- “hap”
- 
-So, considering as bodypart “forearm_left”, reading the action characteristic will return:
-	- “hap:forearm_left”
-
-When written a haptic action characteristic has to have the following array format:
-	- Bytes of index 0 1 indicating the haptic action:
-		- 0x0001
-	- Bytes of index 2 3 containing the unsigned integer representation of the duration in ms, example 255 ms:
-		- 0x00FF
-	- Byte of index 4 containing the unsigned integer representation of the strength in ms, example 100
-		- 0x64
-
-
----------------------------------------------------------
-Bluetooth Nodes
----------------------------------------------------------
-
-The action is sent from the server to the bluetooth node and it has the following format:
-	- Array of bytes, depending on the action it has a different sequence of bytes
-
-Haptic action
-
-Array format:
-	- Bytes of index 0 1 indicating the start of the packet, fixed to:
-		- 0x0000
-	- Bytes of index 2 3 indicating the haptic action:
-		- 0xCCD1
-	- Bytes of index 4 5 containing the unsigned integer representation of the duration in ms, example 255 ms:
-		- 0x00FF
-	- Byte of index 6 containing the unsigned integer representation of the strength in ms, example 100
-		- 0x64
-	- Bytes of index 7 8 indicating the end of the packet, fixed to:
-		- 0x0000
-
 

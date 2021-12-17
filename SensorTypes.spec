@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2019-2021 Manuel Bottini
+Copyright (c) 2021 Manuel Bottini
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -19,3 +19,17 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+------------------------------------------------
+
+Sensor Types Development Specification Version 1.0
+
+This document details the Sensor Types supported by Bodynodes.
+Please open an Issue in case the document is ambiguous or missing information.
+
+---------------------------------------------------------
+Sensor Types
+---------------------------------------------------------
+These are the supported sensor types:
+- "orientation_abs" : Absolute orientation
+- "acceleration_rel" : Relative acceleration
