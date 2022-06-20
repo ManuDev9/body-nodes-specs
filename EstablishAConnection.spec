@@ -51,26 +51,26 @@ a Bodynode Host and Nodes can connect to it.
 The port used by both Host and Node is 12345.
 The multicast port used by both Host and Node is 12346.
 The UDP multicast group used by both Host and Node is 239.192.1.99.
-All of them have been choosen arbitrary.
+Ports and IP addresses have been choosen arbitrarily.
 
 The following is the communication flow:
-  1 - The Host keep sending a multicast UDP packets with the message “ACKH” every 5 seconds to all the devices on the network
-  2 - The Node waits for an ACKH message
-  3 - The Node receives the ACKH message and sends the ACKN UDP message to the Host
-  4 - Afterwards the Node starts sending movement information
+  1 - The Host keep sending a multicast UDP packets with the message “BN” (default) every 5 seconds to all the devices on the network
+  2 - The Node waits for a "BN" message on the multicast group
+  3 - The Node receives the "BN" message and sends the "ACKN" UDP message to the Host and waits
+  4 - The Host receives the "ACKN" message and sends back a "ACKH" UDP message to the Node and starts listening
+  5 - The Node receives the "ACKH" and starts sending movement information
   5 - The Host receives movement information and uses them
 
 Actions are sent via UDP:
   - from Host to Nodes
 
-When an action is sent, the sender expects an ACKN in return to indicate that the actions has been properly received.
-The sender will keep sending the last action it has to send till the ACKN is received. The main reason is that Node
-have way less computational power and they tend to lose incoming packets more easily.
+When the Host send an action, it expects an "ACKN" in return to indicate that the actions has been properly received.
+The Host will keep sending the last action until an "ACKN" from the Node is received.
 
-The Node after receiving an action is expected to "act" and send back an ACKN. This is important to make sure actions are
+The Node after receiving an action is expected to "do it" and send back an "ACKN". This is important to make sure actions are
 confirmed (since UDP is an unreliable protocol).
 
 A final note is about how to keep a connection. The UDP protocol does not check if the other end got terminated and does not receive/send anymore.
-It is up to the Node to send a small sequence of ACKN every 30 seconds. The Host will keep sending ACKH every 5 seconds.
-If the Node does not receive an ACKH for more than 1 minute, it will consider ifself as disconnected and will stop sending data.
-The Host will consider the Node as disconnected if it does not receive data or any ACKN from the Node for more than 1 minute.
+It is up to the Node to send a small sequence of ACKN every 30 seconds.
+If the Node does not receive an "ACKH" for more than 1 minute, it will consider ifself as disconnected and will stop sending data.
+The Host will consider the Node as disconnected if it does not receive data or any "ACKN" from the Node for more than 1 minute.

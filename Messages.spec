@@ -77,6 +77,17 @@ A single JSON Message object is composed by the following fields:
     - "value" = [ 0.3, 0.3, 0.3, 0.3 ]
   - For "sensortype" = "acceleration_rel" the value is an array representing a Vector with three floating points (x, y, z):
     - "value" = [ 0.3, 0.3, 0.3 ]
+  - For "sensortype" = "gloves" the value is an array representing a Vector with 5 integers (a1, a2, a3, a4, a5, d1, d2, d3 ,d4):
+	- "a1" is an indication of the angle of the little finger
+	- "a2" is an indication of the angle of the fourth finger
+	- "a3" is an indication of the angle of the middle finger
+	- "a4" is an indication of the angle of the index finger
+	- "a5" is an indication of the angle of the thumb
+	- "d1" indicates if little finger is in contact with the thumb
+	- "d2" indicates if fourth finger is in contact with the thumb
+	- "d3" indicates if middle finger is in contact with the thumb
+	- "d4" indicates if index finger is in contact with the thumb
+    - "value" = [ 20, 45, 45, 90, 90, 1, 0, 0, 0 ]
 
 Example:
 

@@ -5,7 +5,7 @@ In all the documents we refer to:
 - Node as a generic device capable of sending data
 - Host as a generic machine capable of accepting data and use it for an Application
 
-The first step for a Node to interact with a Host is to "Enstablish a Connection"
+The first step for a Node to interact with a Host is to "Establish a Connection"
 
 The Node sends information through "Messages".
 The Host can give commands to Nodes by sending "Actions"

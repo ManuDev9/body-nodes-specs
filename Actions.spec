@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2019-2021 Manuel Bottini
+Copyright (c) 2019-2022 Manuel Bottini
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -104,6 +104,8 @@ SetWifi action JSON fields:
   - "ssid" : "MyWifi"
 - "password" indicating the password to connect to the wifi. Example:
   - "password" : "12345678"
+- "multicast_group" indicating the name of the multicast group the node should listen to. Example:
+  - "multicast_group" : "bn"
   
 Example:
 
