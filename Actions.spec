@@ -104,8 +104,6 @@ SetWifi action JSON fields:
   - "ssid" : "MyWifi"
 - "password" indicating the password to connect to the wifi. Example:
   - "password" : "12345678"
-- "server_ip" indicating the ip address to connect to. Example:
-  - "server_ip" : "127.0.0.1"
   
 Example:
 
