@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2019-2021 Manuel Bottini
+Copyright (c) 2019-2022 Manuel Bottini
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -24,7 +24,7 @@ SOFTWARE.
 
 EnstablishAConnection Development Specification Version 1.0
 
-This document describes the protocol to enstablish properly a communication within the Bodynodes Network.
+This document describes the protocol to establish properly a communication within the Bodynodes Network.
 Please open an Issue in case the document is ambiguous or missing information.
 
 ---------------------------------------------------------
@@ -40,14 +40,18 @@ Therefore the packets are sent but there is not insurance that all will reach th
 
 As of now no encryption is considered for the data.
 
-There can be 3 actors in the communication:
+There can be 2 actors in the communication:
 	- Node: which gathers movement information from its own sensor and send it to the Host
 	- Host: which listens for Nodes and makes data available to the Main Application
 
-This document assumes that Node and Host are already connected on the same Wifi and they know each other IP Address and Port.
+This document assumes that Node and Host are already connected on the same Wifi.
+Using the UDP Multicast protocol it is possible for the Host to signal to the whole subnetwork that it is
+a Bodynode Host and Nodes can connect to it.
 
-The port used by Host is 12345.
-The port used by Node is 12345.
+The port used by both Host and Node is 12345.
+The multicast port used by both Host and Node is 12346.
+The UDP multicast group used by both Host and Node is 239.192.1.99.
+All of them have been choosen arbitrary.
 
 The following is the communication flow:
   1 - The Host keep sending a multicast UDP packets with the message “ACKH” every 5 seconds to all the devices on the network
@@ -63,9 +67,8 @@ When an action is sent, the sender expects an ACKN in return to indicate that th
 The sender will keep sending the last action it has to send till the ACKN is received. The main reason is that Node
 have way less computational power and they tend to lose incoming packets more easily.
 
-The receiver when receives an action, is expected to act on it and send back an ACKN.
-
-This process is important to make sure actions are confirmed since UDP is an unreliable protocol.
+The Node after receiving an action is expected to "act" and send back an ACKN. This is important to make sure actions are
+confirmed (since UDP is an unreliable protocol).
 
 A final note is about how to keep a connection. The UDP protocol does not check if the other end got terminated and does not receive/send anymore.
 It is up to the Node to send a small sequence of ACKN every 30 seconds. The Host will keep sending ACKH every 5 seconds.
