@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2021 Manuel Bottini
+Copyright (c) 2021-2022 Manuel Bottini
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -50,5 +50,5 @@ These are the supported body parts:
 - "katana"
 - "untagged"
   - or "untagged_<number>" in case you have multiple untagged sensors on the node
-  - you can still use it, but it is suggested to change its name 
+  - you can still use it, but it is suggested to change its name
 - "all"

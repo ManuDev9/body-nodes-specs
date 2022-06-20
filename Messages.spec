@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2019-2021 Manuel Bottini
+Copyright (c) 2019-2022 Manuel Bottini
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -31,16 +31,21 @@ The type of messages are:
 - Movement information:
   - Absolute Orientation: a Quaternion of 4 values [w, x, y, z] which corresponds to the absolute orientation in space of the Node
   - Relative Acceleration: a Vector of 3 values [x, y, z] which corresponds to the acceleration of the Node respect to the local axis (the axis of the sensor in the node). It is usually the raw acceleration coming from the sensor with no reorientation of any sort.
+- Positioning:
+  - Gloves: an array of 9 values [ a1, a2, a3, a4, a5, d1, d2, d3, d4 ]. 5 analogue values corresponding to the angle of each finger (0 is straigth finger, 90 is closed finger). Then there are 4 digitavl values indicating if the finger is touching the thumb (1) or not (0)
+
+NOTE: typically only hand_left ad hand_right have "gloves" sensor data type information
 
 Depending on the communication technology the messages are encoded in different ways. The communication technologies considered are:
 - Wifi
-	
+
 The message has to identify a "player", indicating from which group of bodynodes the sending node belongs to.
 Think about a game with multiple players and each with its own bodynodes suit. The player field is in use at application level.
 
 The supported sensor types are the following:
-- “orientation_abs” 
+- “orientation_abs”
 - “acceleration_rel”
+- "gloves"
 
 Any other name can be used, the library will report them as is to the user. But it is up to the application to properly accept them.
 Using not supported names means that the bodynode won't be able to communicate in standardized systems.
@@ -64,12 +69,13 @@ A single JSON Message object is composed by the following fields:
 - "sensortype" indicating the sensor type, can be:
   - "sensortype" : "orientation_abs"
   - "sensortype" : "acceleration_rel"
+  - "sensortype" : "gloves"
 - "bodypart" indicating the bodypart. Check the "Body Parts Names" section in the "Bodyparts" document for the values to use. Example:
   - "bodypart" : "lowerbody"
 - "value" containing a which will contain the value of the message
-  - For "sensortype" = "orientation_abs" the value is an array representing a Quaternion with four floating points (w, x, y, z): 
+  - For "sensortype" = "orientation_abs" the value is an array representing a Quaternion with four floating points (w, x, y, z):
     - "value" = [ 0.3, 0.3, 0.3, 0.3 ]
-  - For "sensortype" = "acceleration_rel" the value is an array representing a Vector with three floating points (x, y, z): 
+  - For "sensortype" = "acceleration_rel" the value is an array representing a Vector with three floating points (x, y, z):
     - "value" = [ 0.3, 0.3, 0.3 ]
 
 Example:
@@ -79,7 +85,7 @@ bodypart = lowerleg_left
 sensortype = acceleration_rel
 value = [ -0.4545, -0.1150, -0.8029 ]
 
-Message JSON = { 
+Message JSON = {
   "player" : "mario",
   "bodypart" : "forearm_right",
   "type" : "orientation",

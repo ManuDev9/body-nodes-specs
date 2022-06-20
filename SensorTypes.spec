@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2021 Manuel Bottini
+Copyright (c) 2021-2022 Manuel Bottini
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -33,3 +33,4 @@ Sensor Types
 These are the supported sensor types:
 - "orientation_abs" : Absolute orientation
 - "acceleration_rel" : Relative acceleration
+- "gloves" : Gloves

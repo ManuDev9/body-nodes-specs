@@ -41,34 +41,33 @@ Therefore the packets are sent but there is not insurance that all will reach th
 As of now no encryption is considered for the data.
 
 There can be 3 actors in the communication:
-	- Node: which gathers movement information from its own sensor and send it to the Host or SNode
-	- Host: which listens for Nodes and SNodes and makes data available to the Main Application
+	- Node: which gathers movement information from its own sensor and send it to the Host
+	- Host: which listens for Nodes and makes data available to the Main Application
 
 This document assumes that Node and Host are already connected on the same Wifi and they know each other IP Address and Port.
 
 The port used by Host is 12345.
-The port used by SNode is 12345.
 The port used by Node is 12345.
 
 The following is the communication flow:
-  1 - The Node starts the communication by sending a UDP packet with the message “ACK” every 1 second to the Host.
-  2 - The Node waits for an ACK message
-  3 - Host receives the ACK message and sends the ACK UDP message to requesting Node/SNode
-  4 - When Node receives an ACK OSC message starts sending movement information.
+  1 - The Host keep sending a multicast UDP packets with the message “ACKH” every 5 seconds to all the devices on the network
+  2 - The Node waits for an ACKH message
+  3 - The Node receives the ACKH message and sends the ACKN UDP message to the Host
+  4 - Afterwards the Node starts sending movement information
   5 - The Host receives movement information and uses them
 
 Actions are sent via UDP:
   - from Host to Nodes
 
-When an action is sent, the sender expects an ACK in return to indicate that the actions has been properly received.
-The sender will keep sending the last action it has to send till the ACK is received. The main reason is that Node
+When an action is sent, the sender expects an ACKN in return to indicate that the actions has been properly received.
+The sender will keep sending the last action it has to send till the ACKN is received. The main reason is that Node
 have way less computational power and they tend to lose incoming packets more easily.
 
-The receiver when receives an action, is expected to act on it and send back an ACK. 
+The receiver when receives an action, is expected to act on it and send back an ACKN.
 
 This process is important to make sure actions are confirmed since UDP is an unreliable protocol.
 
 A final note is about how to keep a connection. The UDP protocol does not check if the other end got terminated and does not receive/send anymore.
-It is up to the Node to send a small sequence of ACK every 30 seconds. Every time the Host receive an "ACK" it replies with his own "ACK".
-If the Node does not receive an ACK as a reply for more than 1 minute, it will consider ifself as disconnected and will stop sending data.
-The Host will consider the Node as disconnected if it does not receive data or any ACK from the Node.
+It is up to the Node to send a small sequence of ACKN every 30 seconds. The Host will keep sending ACKH every 5 seconds.
+If the Node does not receive an ACKH for more than 1 minute, it will consider ifself as disconnected and will stop sending data.
+The Host will consider the Node as disconnected if it does not receive data or any ACKN from the Node for more than 1 minute.
