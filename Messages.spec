@@ -66,28 +66,10 @@ The bytes will represent a string of a JSON array containing 1 or more JSON obje
 A single JSON Message object is composed by the following fields:
 - "player" indicating the player, example:
   - "player" : "user1"
-- "sensortype" indicating the sensor type, can be:
-  - "sensortype" : "orientation_abs"
-  - "sensortype" : "acceleration_rel"
-  - "sensortype" : "gloves"
+- "sensortype" indicating the sensor type. Check in the "Sensor Types" document for what sensor types are defined
 - "bodypart" indicating the bodypart. Check the "Body Parts Names" section in the "Bodyparts" document for the values to use. Example:
   - "bodypart" : "lowerbody"
-- "value" containing a which will contain the value of the message
-  - For "sensortype" = "orientation_abs" the value is an array representing a Quaternion with four floating points (w, x, y, z):
-    - "value" = [ 0.3, 0.3, 0.3, 0.3 ]
-  - For "sensortype" = "acceleration_rel" the value is an array representing a Vector with three floating points (x, y, z):
-    - "value" = [ 0.3, 0.3, 0.3 ]
-  - For "sensortype" = "gloves" the value is an array representing a Vector with 5 integers (a1, a2, a3, a4, a5, d1, d2, d3 ,d4):
-	- "a1" is an indication of the angle of the little finger
-	- "a2" is an indication of the angle of the fourth finger
-	- "a3" is an indication of the angle of the middle finger
-	- "a4" is an indication of the angle of the index finger
-	- "a5" is an indication of the angle of the thumb
-	- "d1" indicates if little finger is in contact with the thumb
-	- "d2" indicates if fourth finger is in contact with the thumb
-	- "d3" indicates if middle finger is in contact with the thumb
-	- "d4" indicates if index finger is in contact with the thumb
-    - "value" = [ 20, 45, 45, 90, 90, 1, 0, 0, 0 ]
+- "value" containing the value of the message. Check in the "Sensor Types" document for what values to expect
 
 Example:
 
