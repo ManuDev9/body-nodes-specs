@@ -37,6 +37,8 @@ Naming depending on the protocol in use:
 The Nodes we currently consider in the specifications are:
 - WifiNodes
 
-Hosts can be easily implementated by knowing the messages and actions exchanged. Anyone is encourage to create his own Host and Application. 
+Hosts can be easily implementated by knowing the messages and actions exchanged. Anyone is encourage to create
+his own Host and Application. 
 
-If you want to create an Application using our Production Environment get in touch with usby sending us an email at bodynodes.dev@gmail.com
+If you want to create an Application using our Production Environment get in touch with us by sending an email
+at bodynodes.dev@gmail.com

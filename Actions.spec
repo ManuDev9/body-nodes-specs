@@ -35,7 +35,6 @@ The actions supported are:
 - SetupWifi
 
 Depending on the communication technology the movement information is encoded in different ways.
-
 The communication technologies considered are:
 - Wifi
 
@@ -88,9 +87,9 @@ EnableSensor action JSON fields:
   - "player" : "user1"
 - "bodypart" indicating the bodypart. Check the "Body Parts Names" section in the "Bodyparts" document for the values to use. Example:
   - "bodypart" : "all"
-- "sensortype" indicating the sensor. Check the "SensorTypes" document for the values to use. Example:
+- "sensortype" indicating the sensor type to change. Check the "Sensor Types" document for the values to use. Example:
   - "sensortype" : "orientation_abs"
-- "enable" indicating if we want to enable or disable. Example:
+- "enable" indicating if we want to enable or disable the sensor type. Example:
   - "enable" : true
 
 SetWifi action JSON fields:

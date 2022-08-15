@@ -44,11 +44,11 @@ These are the supported sensor types:
 	- "a3" is an indication of the angle of the middle finger
 	- "a4" is an indication of the angle of the index finger
 	- "a5" is an indication of the angle of the thumb
-	- "d1" indicates if little finger is in contact with the thumb
-	- "d2" indicates if fourth finger is in contact with the thumb
-	- "d3" indicates if middle finger is in contact with the thumb
-	- "d4" indicates if index finger is in contact with the thumb
+	- "d1" indicates if the little finger is in contact with the thumb
+	- "d2" indicates if the fourth finger is in contact with the thumb
+	- "d3" indicates if the middle finger is in contact with the thumb
+	- "d4" indicates if the index finger is in contact with the thumb
     - example: [ 20, 45, 45, 90, 90, 1, 0, 0, 0 ]
 - "shoe" : Shoe sensor data type
   - The value is an array representing a Vector with 1 integer (d1)
-    - "d1" indicates if the shoes is currently stepping on the ground
+    - "d1" indicates if the foot/shoe is currently stepping on the ground

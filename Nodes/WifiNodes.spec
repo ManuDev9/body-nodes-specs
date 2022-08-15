@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2019-2021 Manuel Bottini
+Copyright (c) 2019-2022 Manuel Bottini
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -27,13 +27,15 @@ WifiNode Specification Version 1.0
 This document describes the main characteristics of the Bodynodes WifiNode.
 Please open an Issue in case the document is ambiguous or missing information.
 
-WifiNode is the WiFi node that collects movement information and sends it as a client to the server (application). It also listens for actions from the server.
+WifiNode is the WiFi node that collects movement information and sends it as a client to the server
+(application). It also listens for actions from the server.
 
 BodynodesSensor app has the same specs indicated in this document.
 
 WifiNode is connected with only one sensor.
 
-The WifiNode has two LEDs: a green LED and a red LED. The green LED indicates the status of the connection (WiFI AND Server), while the red LED indicates the status of the communication with the sensor
+The WifiNode has two LEDs: a green LED and a red LED. The green LED indicates the status of the connection
+(WiFI AND Server), while the red LED indicates the status of the communication with the sensor.
 
 Red LED ON: There is a problem communicating with the sensor
 Red LED BLINKING: the sensor is not calibrated yet
@@ -43,20 +45,25 @@ Green LED OFF: The WifiNode is not connected to the WiFi OR the Server is offlin
 Green LED BLINKING: The WifiNode is trying to connect with the Server
 Green LED ON: The WifiNode is connected to the WiFi AND communicating with the Server
 
-If the sensor gets temporarily disconnected the red LED will turn ON, and the WifiNode will keep pinging the sensor till it becomes again available. As soon as the communication with the sensor re-establishes the red LED turns OFF.  
+If the sensor gets temporarily disconnected the red LED will turn ON, and the WifiNode will keep pinging
+the sensor till it becomes available again. As soon as the communication with the sensor re-establishes
+the red LED turns OFF.  
 
-The sensor calibration is always checked before any read and the Red LED status is updated accordingly. Therefore if the sensor turns out not calibrated the Red LED will start blinking and no data will be sent.
-The movement information the node sends and supported body parts are defined in the following document
-https://github.com/ManuDev9/body-specs-sensor/blob/master/Messages_Bodyparts.spec
+The sensor calibration is always checked before any read and the Red LED status is updated accordingly.
+Therefore if the sensor turns out not calibrated the Red LED will start blinking and no data will be sent.
+The movement information the node sends and supported body parts are defined in the following document:
+    - https://github.com/ManuDev9/body-specs-sensor/blob/master/Messages.spec
 
-The data is read from the sensor every 30 milliseconds
+The data is read from the sensor every 30 milliseconds.
 
-The read data is then check with the previous send data:
-If read data exceeds the +-0.002 range of the previous data, it is send and becomes new previous send data
-If it does not exceed, previous data does not change
+The read data is then checked with the previously sent data. If read data exceeds the a specific range of
+the previous data, it is sent and becomes new previous sent data. If it does not exceed the new data is not
+sends and previous data does not change. For digital values any change is sent because the possible values
+are 0 and 1, so any change is meaningful.
 
-The actions the node can receive is defined in the following document
-https://github.com/ManuDev9/body-nodes-specs/blob/master/Actions.spec
+The actions the node can receive is defined in the following document:
+    - https://github.com/ManuDev9/body-nodes-specs/blob/master/Actions.spec
 
-Action is also checked every 30 milliseconds after read sensor
+Action is also checked every 30 milliseconds usually after reading the sensor.
+
 

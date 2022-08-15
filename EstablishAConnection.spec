@@ -44,33 +44,35 @@ There can be 2 actors in the communication:
 	- Node: which gathers movement information from its own sensor and send it to the Host
 	- Host: which listens for Nodes and makes data available to the Main Application
 
-This document assumes that Node and Host are already connected on the same Wifi.
-Using the UDP Multicast protocol it is possible for the Host to signal to the whole subnetwork that it is
-a Bodynode Host and Nodes can connect to it.
+This document assumes that Node and Host are all connected on the same Wifi. Using the UDP Multicast protocol
+it is possible for the Host to signal to the whole subnetwork that it is a Bodynode Host and Nodes can connect
+to it.
 
 The port used by both Host and Node is 12345.
 The multicast port used by both Host and Node is 12346.
 The UDP multicast group used by both Host and Node is 239.192.1.99.
-Ports and IP addresses have been choosen arbitrarily.
+Ports and IP addresses have been chosen randomly.
 
 The following is the communication flow:
-  1 - The Host keep sending a multicast UDP packets with the message “BN” (default) every 5 seconds to all the devices on the network
+  1 - The Host keep sending a multicast UDP packets with the message “BN” (default) every 5 seconds to all the
+      devices on the network
   2 - The Node waits for a "BN" message on the multicast group
   3 - The Node receives the "BN" message and sends the "ACKN" UDP message to the Host and waits
   4 - The Host receives the "ACKN" message and sends back a "ACKH" UDP message to the Node and starts listening
   5 - The Node receives the "ACKH" and starts sending movement information
-  5 - The Host receives movement information and uses them
+  6 - The Host receives movement information and uses them
 
 Actions are sent via UDP:
   - from Host to Nodes
 
-When the Host send an action, it expects an "ACKN" in return to indicate that the actions has been properly received.
-The Host will keep sending the last action until an "ACKN" from the Node is received.
+When the Host send an action, it expects an "ACKN" in return to indicate that the actions has been properly
+received. The Host will keep sending the last action until an "ACKN" from the Node is received.
 
-The Node after receiving an action is expected to "do it" and send back an "ACKN". This is important to make sure actions are
-confirmed (since UDP is an unreliable protocol).
+The Node after receiving an action is expected to "do it" and send back an "ACKN". This is important to make
+sure actions are confirmed (since UDP is an unreliable protocol).
 
-A final note is about how to keep a connection. The UDP protocol does not check if the other end got terminated and does not receive/send anymore.
-It is up to the Node to send a small sequence of ACKN every 30 seconds.
-If the Node does not receive an "ACKH" for more than 1 minute, it will consider ifself as disconnected and will stop sending data.
-The Host will consider the Node as disconnected if it does not receive data or any "ACKN" from the Node for more than 1 minute.
+A final note is about how to keep a connection. The UDP protocol does not check if the other end got terminated
+and does not receive/send anymore. It is up to the Node to send a small sequence of ACKN every 30 seconds.
+If the Node does not receive an "ACKH" for more than 1 minute, it will consider ifself as disconnected and will
+stop sending data. The Host will consider the Node as disconnected if it does not receive data or any "ACKN"
+from the Node for more than 1 minute.
