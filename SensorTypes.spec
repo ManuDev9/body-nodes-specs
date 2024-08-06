@@ -53,3 +53,5 @@ These are the supported sensor types:
 - "shoe" : Shoe sensor data type
   - The value is an array representing a Vector with 1 integer (d1)
     - "d1" indicates if the foot/shoe is currently stepping on the ground
+
+NOTE: In case of a recalibration the value will be "recalibrate"

@@ -39,10 +39,15 @@ The type of messages are:
   - Gloves: an array of 9 values [ a1, a2, a3, a4, a5, d1, d2, d3, d4 ]. 5 analogue values corresponding to the
     angle of each finger (0 is straigth finger, 90 is closed finger). Then there are 4 digitavl values indicating
 	if the finger is touching the thumb (1) or not (0)
+	NOTE: typically only hand_left ad hand_right could have "gloves" sensor data type information
   - Shoes: an array of 1 value [d1]. The value indicates if the foot is stepping on the floor (1) or if it is
     lifted (0)
-	
-NOTE: typically only hand_left ad hand_right have "gloves" sensor data type information
+	NOTE: typically only foot_left ad foot_right could have "shoes" sensor data type information
+- Procedures:
+  - Recalibrate: in some cases the Node might autorecalibrate, or the User might be to reset the position of the
+    Node in the application. In these cases, the Node should be able to send a direct message to recalibrate to
+    the Host. The message will just contain as value "recalibrate"
+	NOTE: typically only "orientation_abs" sensor types would send recalibrate messages
 
 Depending on the communication technology the messages are encoded in different ways. The communication
 technologies considered are:
