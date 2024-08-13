@@ -25,55 +25,100 @@ SOFTWARE.
 
 EnstablishAConnection Development Specification Version 1.0
 
-This document describes the protocol to establish properly a communication within the Bodynodes Network.
-Please open an Issue in case the document is ambiguous or missing information.
+This document describes the protocol for establishing communication within the Bodynodes Network.
+Please open an Issue if the document is ambiguous or missing information.
 
 ---------------------------------------------------------
 Wifi Communication
 ---------------------------------------------------------
 
-This section describes the protocol used to connect with Wifi Nodes
-As of now only the following are the types of nodes considered:
-	- WifiNodes
+This section describes the protocol used for communication via WiFi. Currently, only the following
+type of node is considered:
+	- WiFi Bodynode ( also called WiFi Nodes )
 
-The messages are sent using UDP which is a protocol that does provide performace in exchange of reliability.
-Therefore the packets are sent but there is not insurance that all will reach the server.
+Messages are sent using UDP, which provides performance at the expense of reliability. Therefore,
+packets are sent without a guarantee that all will reach the server.
 
-As of now no encryption is considered for the data.
+Encryption is not considered for the data at this time.
 
-There can be 2 actors in the communication:
-	- Node: which gathers movement information from its own sensor and send it to the Host
-	- Host: which listens for Nodes and makes data available to the Main Application
+There are two actors in the communication:
+- Node: Gathers movement information from its internal sensor and sends it to the Host.
+- Host: Listens for Nodes and makes data available to the Main Application.
 
-This document assumes that Node and Host are all connected on the same Wifi. Using the UDP Multicast protocol
-it is possible for the Host to signal to the whole subnetwork that it is a Bodynode Host and Nodes can connect
-to it.
+This document assumes that both Node and Host are connected to the same WiFi network. Using the UDP
+multicast protocol, the Host can signal the entire subnet that it is a Bodynode Host, allowing Nodes
+to connect to it.
 
 The port used by both Host and Node is 12345.
 The multicast port used by both Host and Node is 12346.
 The UDP multicast group used by both Host and Node is 239.192.1.99.
 Ports and IP addresses have been chosen randomly.
 
-The following is the communication flow:
-  1 - The Host keep sending a multicast UDP packets with the message “BN” (default) every 5 seconds to all the
-      devices on the network
-  2 - The Node waits for a "BN" message on the multicast group
-  3 - The Node receives the "BN" message and sends the "ACKN" UDP message to the Host and waits
-  4 - The Host receives the "ACKN" message and sends back a "ACKH" UDP message to the Node and starts listening
-  5 - The Node receives the "ACKH" and starts sending movement information
-  6 - The Host receives movement information and uses them
+The communication flow is as follows:
+- The Host continuously sends multicast UDP packets with the message "BN" (default) every 5 seconds
+  to all devices on the network.
+- The Node listens for the "BN" message on the multicast group.
+- Upon receiving the "BN" message, the Node sends an "ACKN" UDP message to the Host and waits.
+- The Host receives the "ACKN" message and responds with an "ACKH" UDP message to the Node, then
+  starts listening.
+- The Node receives the "ACKH" and begins sending movement information.
+- The Host receives the movement information and processes it.
 
-Actions are sent via UDP:
-  - from Host to Nodes
+Actions are sent via UDP from the Host to the Nodes:
+- When the Host sends an action, it expects an "ACKN" in return to confirm that the action has been
+  properly received. The Host will continue sending the last action until an "ACKN" is received from
+  the Node.
+- After receiving an action, the Node is expected to execute it and send back an "ACKN" to confirm
+  the action.
 
-When the Host send an action, it expects an "ACKN" in return to indicate that the actions has been properly
-received. The Host will keep sending the last action until an "ACKN" from the Node is received.
+To maintain the connection, the Node sends a small sequence of "ACKN" every 30 seconds. If the Node does
+not receive an "ACKH" for more than 1 minute, it considers itself disconnected and will stop sending data.
+Similarly, the Host considers the Node disconnected if it does not receive data or any "ACKN" from the
+Node for more than 1 minute.
 
-The Node after receiving an action is expected to "do it" and send back an "ACKN". This is important to make
-sure actions are confirmed (since UDP is an unreliable protocol).
+---------------------------------------------------------
+Bluetooth Communication
+---------------------------------------------------------
 
-A final note is about how to keep a connection. The UDP protocol does not check if the other end got terminated
-and does not receive/send anymore. It is up to the Node to send a small sequence of ACKN every 30 seconds.
-If the Node does not receive an "ACKH" for more than 1 minute, it will consider ifself as disconnected and will
-stop sending data. The Host will consider the Node as disconnected if it does not receive data or any "ACKN"
-from the Node for more than 1 minute.
+This section describes the protocol used for communication via Bluetooth.
+Currently, only the following type of node is considered:
+- Bluetooth Bodynode (also called Bluetooth Nodes)
+
+Messages are sent via the serial port created over the Bluetooth communication channel.
+
+Encryption is not considered for the data at this time.
+
+There are two actors in the communication:
+- Node: Gathers movement information from its internal sensor and sends it to the Host.
+- Host: Listens for Nodes and makes data available to the Main Application.
+
+This document assumes that the Nodes and Host have been paired, and that the Host knows the Bluetooth
+addresses of the Nodes it wants to connect to. It also assumes that the Host and Nodes are within range
+for Bluetooth communication.
+
+The Node should advertise itself as "Bodynode" to facilitate identification. Pairing should be done manually
+or via an external routine before starting the Bluetooth Bodynode Host. The User or external routine will
+then provide the Host with the target Nodes' Bluetooth addresses. The Bluetooth Bodynode Host will only be
+responsible for connecting and exchanging information. Not all Bluetooth libraries support all operations on
+Bluetooth devices.
+
+The UUID that the Bluetooth Bodynode should register its service to is: 00001101-0000-1000-8000-00805f9b34fb
+This UUID is also used by other common Bluetooth boards like the HC-05.
+
+The communication flow is as follows:
+- The Node creates the UUID service, starts advertising itself, and listens for incoming Bluetooth connections.
+- The Host receives the list of Bluetooth devices to connect to and starts a Bluetooth connection with each of them.
+- The Node accepts the incoming Bluetooth connection request, sends an "ACKN" message to the Host, and waits.
+- The Host receives the "ACKN" message, responds with an "ACKH" message to the Node, and starts listening.
+- The Node receives the "ACKH" and begins sending movement information.
+- The Host receives the movement information and processes it.
+
+Actions are sent via the serial port created on the Bluetooth channel:
+- When the Host sends an action, it expects an "ACKN" in return to confirm that the action has been properly
+  received. The Host will continue sending the last action until an "ACKN" is received from the Node.
+- After receiving an action, the Node is expected to execute it and send back an "ACKN" to confirm the action.
+
+To maintain the connection, the Node sends a small sequence of "ACKN" every 30 seconds. If the Node does not
+receive an "ACKH" for more than 1 minute, it considers itself disconnected and will stop sending data. Similarly,
+the Host considers the Node disconnected if it does not receive data or any "ACKN" from the Node for more than
+1 minute.
