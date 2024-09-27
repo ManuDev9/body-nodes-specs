@@ -122,3 +122,39 @@ To maintain the connection, the Node sends a small sequence of "ACKN" every 30 s
 receive an "ACKH" for more than 1 minute, it considers itself disconnected and will stop sending data. Similarly,
 the Host considers the Node disconnected if it does not receive data or any "ACKN" from the Node for more than
 1 minute.
+
+
+---------------------------------------------------------
+BLE Communication
+---------------------------------------------------------
+
+This section describes the protocol used for communication via BLE.
+Currently, only the following type of node is considered:
+- BLE Bodynode (also called BLE Nodes)
+
+Messages are sent via the BLE communication channel.
+
+Encryption is not considered for the data at this time.
+
+There are two actors in the communication:
+- Node: Gathers movement information from its internal sensor and sends it to the Host.
+- Host: Listens for Nodes and makes data available to the Main Application.
+
+This document assumes that the Nodes and Host are already connected. It also assumes that the Host and Nodes
+are within range for BLE communication.
+
+The Node should advertise itself as "Bodynode" to facilitate identification. The Host will connect immediately
+and will check its MAC address to decide if it is a node of interest or not. If it is it will then read
+the other fields: "player", "bodypart", "values".
+
+The UUID that the Bluetooth Bodynode should register the Messages Service to is:
+0x0000CCA0-0000-1000-8000-00805F9B34FB
+
+The communication flow is as follows:
+- The Node creates the UUID service, starts advertising itself, and listens for incoming BLE connections.
+- The Host receives the list of free BLE "Bodynodes" devices to connect to and starts a connection with each of them.
+- The Node accepts the incoming Bluetooth connection request and let the Host read its characteristics.
+- The Host decides if it wants to communicate with the Node depending on the MAC address of the Node
+- The Host reads player, bodypart, sensortypes information and subscribe to the values notifications it wants.
+
+Actions are currently NOT defined and expected for BLE bodynodes.

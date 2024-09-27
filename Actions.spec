@@ -38,16 +38,21 @@ The actions supported are:
 Depending on the communication technology the movement information is encoded in different ways.
 The communication technologies considered are:
 - Wifi
+- Bluetooth
+
+BLE is not considered for Actions at the moment.
 
 ---------------------------------------------------------
-Wifi Communication
+Wifi and Bluetooth Communication
 ---------------------------------------------------------
 
-The action is sent from the Host to the Wifi node with the UDP protocol.
-
+The action is sent from the Host to the node with the UDP protocol for Wifi connections.
 Actions are encoded in UDP packets which are a sequence of bytes.
-The bytes will represent a string of a JSON object.
-Every action has a specific JSON.
+
+The action is sent from the Host to the node with the serial port created on the Bluetooth channel for Bluetooth connections.
+Actions are encoded in a stream which are a sequence of bytes.
+
+The bytes will represent a string of a JSON object. Every action has a specific JSON.
 
 Haptic action JSON fields:
 - "type" indicating the haptic action with:

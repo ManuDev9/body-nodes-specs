@@ -31,7 +31,8 @@ Please open an Issue in case the document is ambiguous or missing information.
 ---------------------------------------------------------
 Body Parts Names
 ---------------------------------------------------------
-These are the supported body parts:
+These are the supported body part values:
+- "none"
 - "head"
 - "hand_left"
 - "lowerarm_left"
