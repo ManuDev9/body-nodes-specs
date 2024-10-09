@@ -115,15 +115,13 @@ The Bodynodes Service will have the following Bodynodes Characteristics:
   values to use. Example:
   - "bodypart" : "lowerbody"
   - With UUID: 0x0000CCA2-0000-1000-8000-00805F9B34FB
-- "sensortype1" indicating the sensor type. Check in the "Sensor Types" document what sensor types are defined
+- "orientation_abs_value" containing the value of the message. Check in the "Sensor Types" document for what values to expect
   - With UUID: 0x0000CCA3-0000-1000-8000-00805F9B34FB
-- "value1" containing the value of the message. Check in the "Sensor Types" document for what values to expect
+- "acceleration_rel_value" containing the value of the message. Check in the "Sensor Types" document for what values to expect
   - With UUID: 0x0000CCA4-0000-1000-8000-00805F9B34FB
-...
-- "sensortype<X>" indicating the sensor type. Check in the "Sensor Types" document what sensor types are defined
-  - With UUID: 0x0000CCA<Y>  where Y = 2 + 2 * (X - 1) + 1 
-- "value<X>" containing the value of the message as a group of 4 floats, tot (4 x 4) 16 bytes. Check in the
-    "Sensor Types" document for what values to expect
-  - With UUID: 0x0000CCA<Y>  where Y = 2 + 2 * (X - 1) + 2 
+- "glove_value" indicating the sensor type. Check in the "Sensor Types" document what sensor types are defined
+  - With UUID: 0x0000CCA5-0000-1000-8000-00805F9B34FB
+- "shoe_value" containing the value of the message. Check in the "Sensor Types" document for what values to expect
+  - With UUID: 0x0000CCA6-0000-1000-8000-00805F9B34FB
 
-
+Note: the sensortype is indirectly indicated by the UUID
