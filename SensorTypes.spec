@@ -55,5 +55,7 @@ These are the supported sensor types:
 - "shoe" : Shoe sensor data type
   - The value is an array representing a Vector with 1 integer (a1)
     - "a1" indicates if the foot/shoe is currently stepping on the ground and how much
+- "angularvelocity_rel" : Relative angular velocity
+  - The value is an array representing a Vector with three floating points (x, y, z):
+    - example: [ 0.3, 0.3, 0.3 ]
 
-NOTE: In case of a recalibration the value will be "recalibrate"

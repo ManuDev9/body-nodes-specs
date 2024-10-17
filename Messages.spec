@@ -42,10 +42,9 @@ The type of messages are:
   - Shoes: an array of 1 value [d1]. The value indicates if the foot is stepping on the floor (1) or if it is
     lifted (0)
 	NOTE: typically only foot_left ad foot_right could have "shoes" sensor data type information
-- Reset Messages: in some cases the Node might autorecalibrate, or the User might need to reset the position of the
-  Node in the application. In these cases, the Node should be able to send a direct message to recalibrate to
-  the Host. The message will just contain as value "reset"
-  NOTE: typically only "orientation_abs" sensor types would send recalibrate messages
+  - Relative Angular Velocity: a Vector of 3 values [x, y, z] which corresponds to the angular velocity of the Node
+    respect to the local axis (the axis of the sensor in the node). It is usually the raw angular velocity coming
+	from the sensor with no reorientation of any sort.
 
 Depending on the communication technology the messages are encoded in different ways. The communication
 technologies considered are:
@@ -123,5 +122,7 @@ The Bodynodes Service will have the following Bodynodes Characteristics:
   - With UUID: 0x0000CCA5-0000-1000-8000-00805F9B34FB
 - "shoe_value" containing the value of the message. Check in the "Sensor Types" document for what values to expect
   - With UUID: 0x0000CCA6-0000-1000-8000-00805F9B34FB
+- "angularvelocity_rel_value" containing the value of the message. Check in the "Sensor Types" document for what values to expect
+  - With UUID: 0x0000CCA7-0000-1000-8000-00805F9B34FB
 
 Note: the sensortype is indirectly indicated by the UUID
