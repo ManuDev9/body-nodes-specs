@@ -1,7 +1,7 @@
 
 MIT License
 
-Copyright (c) 2021-2024 Manuel Bottini
+Copyright (c) 2021-2025 Manuel Bottini
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -46,7 +46,7 @@ PROCEDURE
 ---------------------------------------------------------
 
 Open this Blender Project and modify it in order to make use of the correct Host for your Nodes configuration:
-https://github.com/ManuDev9/body-nodes-host/tree/master/pc/blender/blender_orientation_reference
+https://github.com/ManuDev9/body-nodes-host/tree/master/pc/blender/BlenderOrientationReference
 
 You will need to clone locally the body-nodes-host repo:
 https://github.com/ManuDev9/body-nodes-host/tree/master
@@ -68,7 +68,14 @@ In a bunch of seconds the Node will connect and move the "katana" object in the 
 You want to align with the pointing part and make sure that the "katana" object rotates upwards/downwards,
 left/right, clockwise/counterclockwise as you expect.
 
-If not change the axis in the Node code. 
+Note that the "katana" object initially points along the X axis of the Empty Frame Object XYZ.
+
+You can readapt your Bodynodes Sensor via Hardware and/or via Software.
+
+In order to readapt the Sensor via Hardware you can rotate the internal IMU sensor in a way that makes more
+sense to you or aligns immediately with the "katana" object
+
+You can also readapt the Sensor via code.
 
 This is an example of code that you can use to "realign" your quaternion values (W, X, Y, Z)
 	
