@@ -78,4 +78,14 @@ All metadata, sensor data streams, and action execution characteristics reside w
 | **Body Part Mapping** | `0x0000CCA2-0000-1000-8000-00805F9B34FB` | Node $\rightarrow$ Host | `Read` | Assigned body part string. |
 | **Orientation Abs Value** | `0x0000CCA3-0000-1000-8000-00805F9B34FB` | Node $\rightarrow$ Host | `Read`, `Notify` | Absolute orientation / IMU quaternion payload. |
 | **Acceleration Rel Value** | `0x0000CCA4-0000-1000-8000-00805F9B34FB` | Node $\rightarrow$ Host | `Read`, `Notify` | Relative acceleration vector payload. |
-| **Glove Value** | `0x0000CCA5
+| **Glove Value** | `0x0000CCA5-0000-1000-8000-00805F9B34FB` | Node $\rightarrow$ Host | `Read`, `Notify` | Finger flex / glove sensor channels payload. |
+| **Shoe Value** | `0x0000CCA6-0000-1000-8000-00805F9B34FB` | Node $\rightarrow$ Host | `Read`, `Notify` | Pressure / foot sensor channels payload. |
+| **Angular Velocity Rel Value** | `0x0000CCA7-0000-1000-8000-00805F9B34FB` | Node $\rightarrow$ Host | `Read`, `Notify` | Relative angular velocity (gyroscope) payload. |
+
+---
+
+## 5. Action Execution
+
+* **Supported Actions:** `Haptic`, `EnableSensor`, `SetPlayer`, `SetBodypart` (`SetWifi` is omitted over BLE).
+* **Processing Cycle:** Incoming actions written to `0xCC9F` are checked and executed non-blocking every 30 ms.
+* **Action Specification:** See [`Actions.spec`](https://github.com/ManuDev9/body-nodes-specs/blob/master/Actions.spec).
