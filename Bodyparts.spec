@@ -1,56 +1,59 @@
+# Bodyparts Development Specification Version 1.0
 
-MIT License
+This document details the body parts and composite suit identifiers supported by Bodynodes, along with their applicable sensor types.
 
-Copyright (c) 2021-2025 Manuel Bottini
+> **Note:** Please open an Issue if this document is ambiguous or missing information.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+---
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+## 1. Body Parts & Compatible Sensor Types
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+Bodynodes classifies nodes based on their physical placement or functional grouping. Below is the full mapping of supported body parts and their compatible sensor data types.
 
-------------------------------------------------
+| Body Part Identifier | Type Category | Supported Sensor Types | Description / Notes |
+| :--- | :--- | :--- | :--- |
+| `"none"` | Reserve | *None* | Unassigned or uninitialized node state. |
+| `"head"` | Standard Inertial | `orientation_abs`, `acceleration_rel`, `angularvelocity_rel` | Head sensor placement. |
+| `"upperbody"` | Standard Inertial | `orientation_abs`, `acceleration_rel`, `angularvelocity_rel` | Chest / upper torso placement. |
+| `"lowerbody"` | Standard Inertial | `orientation_abs`, `acceleration_rel`, `angularvelocity_rel` | Waist / pelvis / lower torso placement. |
+| `"body"` | Standard Inertial | `orientation_abs`, `acceleration_rel`, `angularvelocity_rel` | Single torso sensor (legacy/general). |
+| `"upperarm_left"` | Standard Inertial | `orientation_abs`, `acceleration_rel`, `angularvelocity_rel` | Left upper arm placement. |
+| `"lowerarm_left"` | Standard Inertial | `orientation_abs`, `acceleration_rel`, `angularvelocity_rel` | Left forearm placement. |
+| `"hand_left"` | Hand / Glove | `glove`, `orientation_abs`, `acceleration_rel`, `angularvelocity_rel` | Left hand. Exclusively supports `glove` payload. |
+| `"upperarm_right"` | Standard Inertial | `orientation_abs`, `acceleration_rel`, `angularvelocity_rel` | Right upper arm placement. |
+| `"lowerarm_right"` | Standard Inertial | `orientation_abs`, `acceleration_rel`, `angularvelocity_rel` | Right forearm placement. |
+| `"hand_right"` | Hand / Glove | `glove`, `orientation_abs`, `acceleration_rel`, `angularvelocity_rel` | Right hand. Exclusively supports `glove` payload. |
+| `"upperleg_left"` | Standard Inertial | `orientation_abs`, `acceleration_rel`, `angularvelocity_rel` | Left thigh placement. |
+| `"lowerleg_left"` | Standard Inertial | `orientation_abs`, `acceleration_rel`, `angularvelocity_rel` | Left shin/calf placement. |
+| `"foot_left"` | Foot / Shoe | `shoe`, `orientation_abs`, `acceleration_rel`, `angularvelocity_rel` | Left foot. Exclusively supports `shoe` payload. |
+| `"upperleg_right"` | Standard Inertial | `orientation_abs`, `acceleration_rel`, `angularvelocity_rel` | Right thigh placement. |
+| `"lowerleg_right"` | Standard Inertial | `orientation_abs`, `acceleration_rel`, `angularvelocity_rel` | Right shin/calf placement. |
+| `"foot_right"` | Foot / Shoe | `shoe`, `orientation_abs`, `acceleration_rel`, `angularvelocity_rel` | Right foot. Exclusively supports `shoe` payload. |
+| `"katana"` | Accessory / Prop | `orientation_abs`, `acceleration_rel`, `angularvelocity_rel` | Handheld sword or motion controller prop. |
+| `"untagged"` | Utility | Any single type | Default tag (`untagged` or `untagged_<number>`). Rename recommended. |
+| `"all"` | Wildcard / Broadcast | *Special* | Wildcard target used for broadcast actions/commands. |
 
-Bodyparts Development Specification Version 1.0
+---
 
-This document details the Body Parts supported by Bodynodes.
-Please open an Issue in case the document is ambiguous or missing information.
+## 2. Composite Suit Identifiers
 
----------------------------------------------------------
-Body Parts Names
----------------------------------------------------------
-These are the supported body part values:
-- "none"
-- "head"
-- "hand_left"
-- "lowerarm_left"
-- "upperarm_left"
-- "body"
-- "lowerarm_right"
-- "upperarm_right"
-- "hand_right"
-- "lowerleg_left"
-- "upperleg_left"
-- "foot_left"
-- "lowerleg_right"
-- "upperleg_right"
-- "foot_right"
-- "upperbody"
-- "lowerbody"
-- "katana"
-- "untagged"
-  - or "untagged_<number>" in case you have multiple untagged sensors on the node
-  - you can still use it, but it is suggested to change its name
-- "all"
+Composite body parts represent aggregated suits that combine multiple inertial sensors into a single unified telemetry vector ($N \times D$).
+
+> **Important Constraint:** Composite suits **only aggregate inertial sensor streams** (`orientation_abs`, `acceleration_rel`, `angularvelocity_rel`). They **never include** `glove` or `shoe` sensor types.
+
+| Suit Identifier | Contained Single Body Parts ($N$) | Contained Sub-Parts (Ordered Sequence) |
+| :--- | :--- | :--- |
+| **`fullsuit`** | 11 parts | `head`, `lowerarm_left`, `upperarm_left`, `lowerarm_right`, `upperarm_right`, `lowerleg_left`, `upperleg_left`, `lowerleg_right`, `upperleg_right`, `upperbody`, `lowerbody` |
+| **`uppersuit`** | 7 parts | `head`, `lowerarm_left`, `upperarm_left`, `lowerarm_right`, `upperarm_right`, `upperbody`, `lowerbody` |
+| **`lowersuit`** | 4 parts | `lowerleg_left`, `upperleg_left`, `lowerleg_right`, `upperleg_right` |
+
+---
+
+## 3. Sensor Type Rules Summary
+
+1. **Inertial Sensors (`orientation_abs`, `acceleration_rel`, `angularvelocity_rel`):**
+   * Compatible with all standard body parts, props (`katana`), untagged nodes, and composite suits (`fullsuit`, `uppersuit`, `lowersuit`).
+2. **Glove Sensor (`glove`):**
+   * Restricted strictly to `hand_left` and `hand_right`. Never included in composite suits.
+3. **Shoe Sensor (`shoe`):**
+   * Restricted strictly to `foot_left` and `foot_right`. Never included in composite suits.
